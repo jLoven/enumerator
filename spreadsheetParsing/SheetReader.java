@@ -21,7 +21,7 @@ import dataStoring.CodeValuePair;
 public class SheetReader {
 
 	static String[] args = new String[] {""};
-	
+
 	public static void main(String[] args) {
 		FileChooser.main(args);
 		final String FILE_PATH = FileChooser.getSelectedFilePath().toString();
@@ -36,9 +36,8 @@ public class SheetReader {
 		try {
 			fileInputStream = new FileInputStream(filePath);
 			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-			//  Grab first sheet:
+			//  Grab first sheet, allow iterator:
 			XSSFSheet sheet = workbook.getSheetAt(0);
-			//  Allow an iterator on the XSSFSHeet:
 			Iterator<Row> rowIterator = sheet.iterator();
 
 			//  Iterate over rows.
@@ -62,13 +61,13 @@ public class SheetReader {
 			}
 			workbook.close();
 			fileInputStream.close();
-			
+
 		} catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return codeValuePairsList;
 	}
 }
