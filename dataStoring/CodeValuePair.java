@@ -13,7 +13,7 @@ public class CodeValuePair {
 	private String code;
 	private String value;
 
-	public CodeValuePair() {};
+	public CodeValuePair() {}
 
 	public CodeValuePair(String readCode, String readValue) {
 		this.code = readCode;
@@ -38,7 +38,7 @@ public class CodeValuePair {
 
 	@Override
 	public String toString() {
-		return "Code: " + this.code + "; Value: " + this.value;
+		return "Code: " + this.code + " Value: " + this.value;
 	}
 
 }

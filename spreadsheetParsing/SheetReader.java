@@ -1,5 +1,5 @@
 //  Jackie Loven, 1 August 2015
-//  Adapted from http://goo.gl/cIH0hc.
+//  File reading reference: http://goo.gl/cIH0hc
 
 
 package spreadsheetParsing;
@@ -15,24 +15,26 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import userInput.FileChooser;
 import dataStoring.CodeValuePair;
 
 public class SheetReader {
 
-	//  TODO: Replace with file picking window.
-	private static final String FILE_PATH = 
-			"/Users/platypus/Desktop/random_stuff/code/java/enumerator/Enumerator/first_generated_excel.xlsx";
-
+	static String[] args = new String[] {""};
+	
 	public static void main(String[] args) {
-		ArrayList<CodeValuePair> finalList = getCodesAndValues();
+		FileChooser.main(args);
+		final String FILE_PATH = FileChooser.getSelectedFilePath().toString();
+
+		ArrayList<CodeValuePair> finalList = getCodesAndValues(FILE_PATH);
 		System.out.println(finalList);
 	}
 
-	public static ArrayList<CodeValuePair> getCodesAndValues() {
+	public static ArrayList<CodeValuePair> getCodesAndValues(String filePath) {
 		ArrayList<CodeValuePair> codeValuePairsList = new ArrayList<CodeValuePair>();
 		FileInputStream fileInputStream = null;
 		try {
-			fileInputStream = new FileInputStream(FILE_PATH);
+			fileInputStream = new FileInputStream(filePath);
 			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 			//  Grab first sheet:
 			XSSFSheet sheet = workbook.getSheetAt(0);
