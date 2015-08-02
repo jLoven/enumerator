@@ -1,3 +1,6 @@
+//  Jackie Loven, 1 August 2015
+//  Adapted from http://goo.gl/ckqE63.
+
 package spreadsheetParsing;
 
 import java.io.File;
@@ -9,13 +12,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelScraper {
-
+public class SheetCreator {
 
 	public static void main(String[] args) {
 		//  New workbook with blank sheet:
 		XSSFWorkbook workbook = new XSSFWorkbook(); 
-		XSSFSheet sheet = workbook.createSheet("Employee Data");
+		XSSFSheet sheet = workbook.createSheet("Sample");
 
 		//  Some data to stick in the sheet:
 		ArrayList<String> data = new ArrayList<String>();
