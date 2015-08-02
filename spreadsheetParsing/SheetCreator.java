@@ -1,6 +1,7 @@
 //  Jackie Loven, 1 August 2015
 //  Adapted from http://goo.gl/ckqE63.
 
+
 package spreadsheetParsing;
 
 import java.io.File;
@@ -12,6 +13,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import dataStoring.CodeValuePair;
+
 public class SheetCreator {
 
 	public static void main(String[] args) {
@@ -20,17 +23,27 @@ public class SheetCreator {
 		XSSFSheet sheet = workbook.createSheet("Sample");
 
 		//  Some data to stick in the sheet:
-		ArrayList<String> data = new ArrayList<String>();
-		data.add("hello");
-		data.add("world");
+		ArrayList<CodeValuePair> data = new ArrayList<CodeValuePair>();
+		CodeValuePair cvp1 = new CodeValuePair("Hello", "World");
+		CodeValuePair cvp2 = new CodeValuePair("123", "456");
 
 		//  Put it in cells in the same row
 		int rowNumber = 0;
-		Row row = sheet.createRow(rowNumber);
 		int cellNumber = 0;
-		for (String word : data) {
+		for (Object datum : data) {
+			Row row = sheet.createRow(rowNumber);
 			Cell cell = row.createCell(cellNumber++);
-			cell.setCellValue(word);
+
+			if (datum.getClass() == Double.class) {
+				cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+				cell.setCellValue((Double) datum);
+			} else if (datum.getClass() == String.class) {
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue((String) datum);
+			}
+			if (cellNumber % 2 == 1) {
+				rowNumber++;
+			}
 		}
 
 		//  Make the Excel workbook. Remember to close it!

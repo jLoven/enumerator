@@ -50,11 +50,9 @@ public class SheetReader {
 					Cell cell = cellIterator.next();
 
 					if (cell.getColumnIndex() == 0) {
-						//  TODO: Make a nicer String method for the cell reader.
-						//  This is a hack and only works on string-valued cells.
-						codeValuePair.setCode(cell.getStringCellValue());
+						codeValuePair.setCode(CellReader.makeString(cell));
 					} else if (cell.getColumnIndex() == 1) {
-						codeValuePair.setValue(cell.getStringCellValue());
+						codeValuePair.setValue(CellReader.makeString(cell));
 					}
 				} 
 				//  Keep track of the code-value pair just created.
