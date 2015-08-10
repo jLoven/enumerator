@@ -26,6 +26,7 @@ public class EnumSettingsChooser implements ActionListener{
 	private JFrame frame = new JFrame("Enumeration Settings");
 	private JTextField packageNameText = new JTextField();
 	private JTextField classNameText = new JTextField();
+	private JTextField destinationFolderText = new JTextField();
 	
 	public void addComponentsToPane(Container pane) {
 		pane.setLayout(new GridBagLayout());
@@ -65,13 +66,26 @@ public class EnumSettingsChooser implements ActionListener{
 		c.gridx = 1;
 		c.gridy = 3;
 		pane.add(classNameText, c);
+		
+		JLabel detinationFolderLabel = new JLabel("Destination folder", SwingConstants.LEFT);
+		c.insets = new Insets(0,20,20,20);
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 4;
+		pane.add(classNameLabel, c);
+
+		c.insets = new Insets(0,0,20,20);
+		c.gridwidth = 2;
+		c.gridx = 1;
+		c.gridy = 4;
+		pane.add(destinationFolderText, c);
 
 		JButton approveButton = new JButton("Create Enumeration!"); 
 		approveButton.addActionListener(this);
 		c.insets = new Insets(0,20,20,20);
 		c.gridwidth = 3;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 5;
 		pane.add(approveButton, c);
 
 	}
@@ -91,9 +105,11 @@ public class EnumSettingsChooser implements ActionListener{
 		
 		String packageNameText = this.packageNameText.getText();
 		String classNameText = this.classNameText.getText();
+		String destinationFolderText = this.destinationFolderText.getText();
 		EnumSettings settings = new EnumSettings();
 		settings.setPackageName(packageNameText);
 		settings.setClassName(classNameText);
+		settings.setDestinationFolder(destinationFolderText);
 		System.out.println(settings.toString());
 		
 		thisFrame.setVisible(false);

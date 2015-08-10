@@ -14,7 +14,7 @@ import dataStoring.SelectedFile;
 public class FileChooser {
 
 	private static SelectedFile file = new SelectedFile();
-
+	
 	public static void main(String[] args) {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setApproveButtonText("Choose");
