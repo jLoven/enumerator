@@ -20,7 +20,7 @@ import dataStoring.CodeValuePair;
 
 public class SheetReader {
 
-	static String[] args = new String[] {""};
+	//static String[] args = new String[] {""};
 
 	public static void main(String[] args) {
 		FileChooser.main(args);
