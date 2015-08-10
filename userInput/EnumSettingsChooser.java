@@ -67,13 +67,14 @@ public class EnumSettingsChooser implements ActionListener{
 		c.gridy = 3;
 		pane.add(classNameText, c);
 		
-		JLabel detinationFolderLabel = new JLabel("Destination folder", SwingConstants.LEFT);
+		JLabel destinationFolderLabel = new JLabel("Destination folder", SwingConstants.LEFT);
 		c.insets = new Insets(0,20,20,20);
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 4;
-		pane.add(classNameLabel, c);
+		pane.add(destinationFolderLabel, c);
 
+		//  TODO: Make this a button "Browse..."
 		c.insets = new Insets(0,0,20,20);
 		c.gridwidth = 2;
 		c.gridx = 1;
