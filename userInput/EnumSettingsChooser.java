@@ -11,12 +11,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class EnumSettingsChooser implements ActionListener{
 	
 	private int numClicks = 0;
+	private JFrame frame = new JFrame("Enumeration Settings");
 
 	public void addComponentsToPane(Container pane) {
 		pane.setLayout(new GridBagLayout());
@@ -61,7 +65,6 @@ public class EnumSettingsChooser implements ActionListener{
 		
 		JButton approveButton = new JButton("Create Enumeration!"); 
 		approveButton.addActionListener(this);
-		// Top, Left, Bottom, Right
 		c.insets = new Insets(0,20,20,20);
 		c.gridwidth = 3;
 		c.gridx = 0;
@@ -71,25 +74,34 @@ public class EnumSettingsChooser implements ActionListener{
 	}
 
 	private void createAndShowGUI() {
-		JFrame frame = new JFrame("Enumeration Settings");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addComponentsToPane(frame.getContentPane());
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public static void main(String[] args) {
-		final EnumSettingsChooser gBLT = new EnumSettingsChooser();
+		final EnumSettingsChooser chooser = new EnumSettingsChooser();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				gBLT.createAndShowGUI();
+				chooser.createAndShowGUI();
 			}
 		});
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		JButton button = (JButton) e.getSource();
 		numClicks++;
         System.out.println("Button Clicked " + numClicks + " times");
+        getFrame(button).setVisible(false);
+        getFrame(button).dispose();
+	}
+	
+	public JFrame getFrame(JButton button) {
+		JRootPane relevantFrame = (JRootPane) button.getParent().getParent().getParent();
+		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(relevantFrame);
+		return frame;
 	}
 }
