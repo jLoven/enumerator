@@ -7,6 +7,9 @@ import java.io.File;
 
 public class SelectedFile {
 
+	//  This works with directories too.
+	//  No need for a new class to store directory info.
+	
 	private File filePath;
 	
 	public SelectedFile() {}

@@ -20,13 +20,14 @@ import dataStoring.CodeValuePair;
 
 public class SheetReader {
 
-	//static String[] args = new String[] {""};
-
+	private static String filePath;
+	public static ArrayList<CodeValuePair> finalList;
+	
 	public static void main(String[] args) {
-		FileChooser.main(args);
-		final String FILE_PATH = FileChooser.getSelectedFilePath().toString();
-
-		ArrayList<CodeValuePair> finalList = getCodesAndValues(FILE_PATH);
+		FileChooser.main(null);
+		filePath = FileChooser.getSelectedFilePath().toString();
+		
+		finalList = getCodesAndValues(filePath);
 		System.out.println(finalList);
 	}
 

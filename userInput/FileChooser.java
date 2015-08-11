@@ -26,7 +26,7 @@ public class FileChooser {
 
 		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			file.setFilePath(chooser.getSelectedFile());
-			EnumSettingsChooser.main(args);
+			EnumSettingsChooser.main(null);
 		}
 	}
 

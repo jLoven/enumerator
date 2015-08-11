@@ -5,6 +5,7 @@
 package userInput;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,14 +21,18 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import dataStoring.EnumSettings;
+import fileWriting.WriteJavaEnum;
 
 public class EnumSettingsChooser implements ActionListener{
 
 	private JFrame frame = new JFrame("Enumeration Settings");
 	private JTextField packageNameText = new JTextField();
 	private JTextField classNameText = new JTextField();
-	private JTextField destinationFolderText = new JTextField();
-	
+	JButton browseButton = new JButton(System.getProperty("user.home") + "/Desktop" + "    (Browse...)");
+	JButton approveButton = new JButton("Create Enumeration!");
+	private int originalLength = browseButton.getText().length();
+	public EnumSettings settings = new EnumSettings();
+
 	public void addComponentsToPane(Container pane) {
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -66,7 +71,7 @@ public class EnumSettingsChooser implements ActionListener{
 		c.gridx = 1;
 		c.gridy = 3;
 		pane.add(classNameText, c);
-		
+
 		JLabel destinationFolderLabel = new JLabel("Destination folder", SwingConstants.LEFT);
 		c.insets = new Insets(0,20,20,20);
 		c.gridwidth = 1;
@@ -74,14 +79,12 @@ public class EnumSettingsChooser implements ActionListener{
 		c.gridy = 4;
 		pane.add(destinationFolderLabel, c);
 
-		//  TODO: Make this a button "Browse..."
-		c.insets = new Insets(0,0,20,20);
-		c.gridwidth = 2;
+		browseButton.addActionListener(this);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 4;
-		pane.add(destinationFolderText, c);
+		pane.add(browseButton, c);
 
-		JButton approveButton = new JButton("Create Enumeration!"); 
 		approveButton.addActionListener(this);
 		c.insets = new Insets(0,20,20,20);
 		c.gridwidth = 3;
@@ -91,30 +94,48 @@ public class EnumSettingsChooser implements ActionListener{
 
 	}
 
-	private void createAndShowGUI() {
+	private void createAndShowGUI(int width, int height) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addComponentsToPane(frame.getContentPane());
-		frame.pack();
+		//frame.pack();
+		frame.setSize(width, height);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JButton button = (JButton) e.getSource();
-		JFrame thisFrame = getFrame(button);
+		JButton buttonPressed = (JButton) e.getSource();
+		JFrame thisFrame = getFrame(buttonPressed);
 		
-		String packageNameText = this.packageNameText.getText();
-		String classNameText = this.classNameText.getText();
-		String destinationFolderText = this.destinationFolderText.getText();
-		EnumSettings settings = new EnumSettings();
-		settings.setPackageName(packageNameText);
-		settings.setClassName(classNameText);
-		settings.setDestinationFolder(destinationFolderText);
+		
+		if (buttonPressed == approveButton) {
+			String packageNameText = this.packageNameText.getText();
+			String classNameText = this.classNameText.getText();
+			settings.setPackageName(packageNameText);
+			settings.setClassName(classNameText);
+			settings.setDestinationFolder(FolderChooser.getSelectedFilePath());
+			WriteJavaEnum.main(settings);
+			thisFrame.setVisible(false);
+			thisFrame.dispose();
+		} else if (buttonPressed == browseButton) {
+			//  For some reason the JFrame twitches before rendering.
+			//  Doesn't make sense because it's only visible after it's created.
+			thisFrame.setVisible(false);
+			FolderChooser.main(null);
+			String newText = FolderChooser.getSelectedFilePath().toString();
+			buttonPressed.setText(newText);
+			
+			//  Dynamically resize JFrame depending on selected file path.
+			if (newText.length() <= originalLength) {
+				thisFrame.setSize(500 - buttonPressed.getSize().width / 4, 300);
+			} else {
+				thisFrame.setSize(500 + buttonPressed.getSize().width, 300);
+			}
+			thisFrame.setLocationRelativeTo(null);
+			thisFrame.setVisible(true);
+		}
 		System.out.println(settings.toString());
-		
-		thisFrame.setVisible(false);
-		thisFrame.dispose();
 	}
 
 	public JFrame getFrame(JButton button) {
@@ -122,12 +143,12 @@ public class EnumSettingsChooser implements ActionListener{
 		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(relevantFrame);
 		return frame;
 	}
-	
+
 	public static void main(String[] args) {
 		final EnumSettingsChooser chooser = new EnumSettingsChooser();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				chooser.createAndShowGUI();
+				chooser.createAndShowGUI(500, 300);
 			}
 		});
 	}

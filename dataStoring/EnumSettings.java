@@ -1,22 +1,23 @@
 package dataStoring;
 
+import java.io.File;
+
 public class EnumSettings {
 
 	private String packageName;
 	private String className;
-	//  TODO: Should be file path?:
-	private String destinationFolder;
-	
+	private File destinationFolder;
+
 	public EnumSettings() {}
-	
+
 	public String getPackageName() {
 		return this.packageName;
 	}
-	
+
 	private void setDefaultPackageName() {
 		this.packageName = "defaultPackage";
 	}
-	
+
 	public void setPackageName(String packageName) {
 		String sanitizedPackageName = packageName.replaceAll("[^a-zA-Z0-9]+", "");
 		if (sanitizedPackageName.length() > 0) {
@@ -26,15 +27,15 @@ public class EnumSettings {
 			setDefaultPackageName();
 		}
 	}
-	
-	public String getclassName() {
+
+	public String getClassName() {
 		return this.className;
 	}
-	
+
 	private void setDefaultClassName() {
 		this.className = "Enumeration";
 	}
-	
+
 	public void setClassName(String className) {
 		String sanitizedClassName = className.replaceAll("[^a-zA-Z0-9]+", "");
 		if (sanitizedClassName.length() > 0) {
@@ -44,30 +45,30 @@ public class EnumSettings {
 			setDefaultClassName();
 		}
 	}
-	
-	// TODO: Should be file path?:
-	public String getDestinationFolder() {
+
+	public File getDestinationFolder() {
 		return this.destinationFolder;
 	}
-	
-	// TODO: Should be file path?:
+
 	private void setDefaultDestinationFolder() {
-		//  TODO: make it stick it on your desktop.
-		//this.destinationFolder = 
+		String desktopLocation = System.getProperty("user.home") + "/Desktop";
+		this.destinationFolder = new File(desktopLocation);
+
 	}
-	
-	// TODO: Should be file path?:
-	public void setDestinationFolder(String destinationFolder) {
-		//  check if null or not.
-		//  TODO: make new folder path set it.
-		
+
+	public void setDestinationFolder(File filePath) {
+		if (filePath != null) {
+			this.destinationFolder = filePath;
+		} else {
+			setDefaultDestinationFolder();
+		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Package Name: " + this.packageName + 
 				" Class Name: " + this.className + 
 				" Destination Folder: " + String.valueOf(this.destinationFolder);
 	}
-	
+
 }
