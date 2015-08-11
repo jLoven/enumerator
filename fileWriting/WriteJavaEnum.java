@@ -32,7 +32,16 @@ public class WriteJavaEnum {
 			writer.write("\n");
 			writer.write("\n");
 			for (CodeValuePair pair : pairList) {
-				writer.write("\t" + "(" + '"' + pair.getCode() + '"' + ", " + '"' + pair.getValue() + '"' + ")" );
+				String enumPairName = pair.getValue().toUpperCase().replaceAll("[^A-Z0-9]+", "_");
+				System.out.println(enumPairName + " inside for");
+				String enumPairNameNoNumbers = enumPairName.replaceAll("[0-9]+", "");
+				System.out.println(enumPairNameNoNumbers + " enumPairNameNoNumbers");
+				//  Make sure enumPairName isn't a number:
+				if (enumPairNameNoNumbers.trim() == null) {
+					System.out.println(enumPairName + " inside if");
+					enumPairName = enumPairName + "_";
+				}
+				writer.write("\t" + enumPairName +"(" + '"' + pair.getCode() + '"' + ", " + '"' + pair.getValue() + '"' + ")" );
 				if (pairList.indexOf(pair) != pairList.size() - 1) {
 					writer.write(",");
 				} else {
@@ -76,11 +85,11 @@ public class WriteJavaEnum {
 			
 			writer.write("\t" + "public static " + settings.getClassName() + " getByCode(String code) {");
 			writer.write("\n");
-			writer.write("\t" + "\t" + "for (" + settings.getClassName() + " item : " + settings.getClassName() + ".values()) {");
+			writer.write("\t" + "\t" + "for (" + settings.getClassName() + " value : " + settings.getClassName() + ".values()) {");
 			writer.write("\n");
-			writer.write("\t" + "\t" + "\t" + "if (code.equals(item.getCode())) {");
+			writer.write("\t" + "\t" + "\t" + "if (code.equals(value.getCode())) {");
 			writer.write("\n");
-			writer.write("\t" + "\t" + "\t" + "\t" + "return item;");
+			writer.write("\t" + "\t" + "\t" + "\t" + "return value;");
 			writer.write("\n");
 			writer.write("\t" + "\t" + "\t" + "}");
 			writer.write("\n");
@@ -97,9 +106,6 @@ public class WriteJavaEnum {
 			writer.close();
 		} catch (IOException ex) {
 		}
-
 	}
-
-
 }
 
